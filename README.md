@@ -1,56 +1,46 @@
 ﻿# JOB STUDENT TASK
 
-> A modern web application built with passion and clean code principles.
-
-## About
-JOB STUDENT TASK is a full-stack project showcasing real-world development skills including
-authentication, database integration, responsive design, and API development.
+## Overview
+This project is part of my full-stack web development journey. Built with modern technologies and best practices.
 
 ## Features
-- âœ… User authentication & authorization
-- âœ… Responsive mobile-first design
-- âœ… RESTful API with proper error handling
-- âœ… Database with optimized queries
-- âœ… Clean component architecture
-- âœ… Form validation
+- Clean, responsive user interface
+- Modern JavaScript (ES6+) and React
+- RESTful API integration
+- Secure authentication system
+- Performance optimized
 
 ## Tech Stack
-```
-Frontend:  React.js + CSS3 + HTML5
-Backend:   Node.js + Express.js
-Database:  MongoDB + Mongoose
-Auth:      JWT + bcryptjs
-Deploy:    Vercel / Render
-```
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React.js, HTML5, CSS3 |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Auth | JWT, bcrypt |
+| Tools | Git, VS Code, Postman |
 
-## Quick Start
+## Getting Started
+
+### Prerequisites
+- Node.js (v18+)
+- npm or yarn
+- MongoDB
+
+### Installation
 ```bash
 git clone https://github.com/sojibahmedshorif25-ai/JOB-STUDENT-TASK.git
-cd JOB-STUDENT-TASK && npm install && npm run dev
+cd JOB-STUDENT-TASK
+npm install
+cp .env.example .env
+npm start
 ```
 
-## Project Structure
-```
-src/
- â”œâ”€â”€ components/    # Reusable UI components
- â”œâ”€â”€ pages/         # Page components
- â”œâ”€â”€ hooks/         # Custom React hooks
- â”œâ”€â”€ utils/         # Helper functions
- â”œâ”€â”€ api/           # API calls
- â””â”€â”€ styles/        # CSS modules
-```
-
-## Scripts
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm test` | Run tests |
-| `npm run lint` | Lint code |
-
-## Author
-**Sojib Ahmed** â€” Full Stack Developer
-ðŸ”— [GitHub](https://github.com/sojibahmedshorif25-ai) | ðŸ“§ sojibahmedshorif25@gmail.com
+## Contributing
+Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
-MIT Â© 2026 Sojib Ahmed
+[MIT](LICENSE) Â© Sojib Ahmed
+
+## Author
+**Sojib Ahmed** | Full Stack Developer
+- GitHub: [@sojibahmedshorif25-ai](https://github.com/sojibahmedshorif25-ai)

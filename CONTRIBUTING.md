@@ -1,47 +1,36 @@
 ﻿# Contributing to JOB-STUDENT-TASK
 
-We love contributions! Here's how you can help.
+Thank you for your interest in contributing!
 
-## ðŸ› Bug Reports
-Found a bug? [Open an issue](https://github.com/sojibahmedshorif25-ai/JOB-STUDENT-TASK/issues/new?template=bug_report.md)
+## How to Contribute
 
-## ðŸ’¡ Feature Requests
-Have an idea? [Open a feature request](https://github.com/sojibahmedshorif25-ai/JOB-STUDENT-TASK/issues/new?template=feature_request.md)
+### Reporting Bugs
+1. Check existing issues first
+2. Open a new issue with a clear title
+3. Include reproduction steps
 
-## ðŸ”§ Pull Requests
+### Feature Requests
+- Open an issue with enhancement label
+- Describe the feature clearly
 
-### Setup
-```bash
-git clone https://github.com/sojibahmedshorif25-ai/JOB-STUDENT-TASK.git
-cd JOB-STUDENT-TASK
-npm install
-```
+### Pull Requests
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'feat: add amazing feature'`
+4. Push: `git push origin feature/amazing-feature`
+5. Open a Pull Request
 
-### Workflow
-1. Fork the repo
-2. Create branch: `git checkout -b feat/your-feature`
-3. Write code + tests
-4. Commit: `git commit -m "feat: add your feature"`
-5. Push: `git push origin feat/your-feature`
-6. Open PR against `main`
+## Commit Convention
+- `feat:` new feature
+- `fix:` bug fix
+- `docs:` documentation
+- `chore:` maintenance
+- `refactor:` code refactoring
 
-### Commit Convention (Conventional Commits)
-| Prefix | When to use |
-|--------|-------------|
-| `feat:` | New feature |
-| `fix:` | Bug fix |
-| `docs:` | Documentation change |
-| `style:` | Formatting only |
-| `refactor:` | Code refactor |
-| `test:` | Adding tests |
-| `chore:` | Maintenance |
-
-## Code Standards
-- ES6+ syntax
-- 2-space indentation
-- Single quotes for strings
-- Semicolons required
-- JSDoc for public functions
+## Code Style
+- 2 spaces indentation
+- Meaningful variable names
+- Add JSDoc comments for functions
 
 ## License
-By contributing you agree to license your work under MIT.
+Contributions are licensed under MIT.
