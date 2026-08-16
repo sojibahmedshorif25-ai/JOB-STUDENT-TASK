@@ -14,6 +14,7 @@ import {
   getCertificates,
   getReports,
   dashboardHealth,
+  syncAdminCredentials,
 } from '../controllers/admin.controller';
 import { protect, authorize } from '../middlewares/auth';
 import { validate } from '../middlewares/validate';
@@ -37,5 +38,10 @@ router.get('/projects', getAdminProjects);
 router.get('/certificates', getCertificates);
 router.get('/reports', getReports);
 router.get('/health', dashboardHealth);
+router.post(
+  '/sync-admin',
+  validate(z.object({ email: z.string().email(), password: z.string().min(8) })),
+  syncAdminCredentials,
+);
 
 export default router;

