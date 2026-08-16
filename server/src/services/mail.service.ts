@@ -23,7 +23,34 @@ export interface MailOptions {
   html?: string;
 }
 
+const sendViaResend = async (options: MailOptions): Promise<boolean> => {
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.resendApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: env.mailFrom,
+        to: [options.to],
+        subject: options.subject,
+        text: options.text,
+        ...(options.html ? { html: options.html } : {}),
+      }),
+    });
+    if (!res.ok) throw new Error(`Resend API error: ${res.status}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send email via Resend:', error);
+    return false;
+  }
+};
+
 export const sendMail = async (options: MailOptions): Promise<boolean> => {
+  if (env.resendApiKey) {
+    return sendViaResend(options);
+  }
   const transport = getTransporter();
   if (!transport) {
     if (env.nodeEnv === 'development') {
