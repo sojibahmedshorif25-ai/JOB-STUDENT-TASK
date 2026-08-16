@@ -18,7 +18,10 @@ export const auth = betterAuth({
   baseURL: env.serverUrl,
   basePath: '/api/auth',
   database: mongodbAdapter(getDb(), { client: mongoClient }),
-  trustedOrigins: [env.clientUrl],
+  trustedOrigins: env.clientUrl
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean),
   socialProviders: {
     google: {
       clientId: env.googleClientId,
