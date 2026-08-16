@@ -42,7 +42,9 @@ export const getQuestions = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const getTopics = catchAsync(async (req: Request, res: Response) => {
-  const topics = await InterviewQuestion.distinct('topic', { category: String(req.query.category || '') });
+  const category = String(req.query.category || '');
+  const filter = category && category !== 'All' ? { category } : {};
+  const topics = await InterviewQuestion.distinct('topic', filter);
   sendSuccess(res, 200, 'Topics fetched', topics.filter(Boolean));
 });
 
