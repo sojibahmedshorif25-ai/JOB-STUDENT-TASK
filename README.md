@@ -26,7 +26,7 @@ All seed passwords are `password123`:
 
 | Role      | Email                  | Access |
 |-----------|------------------------|--------|
-| Admin     | admin@skillforge.dev   | Full admin panel, verify certificates |
+| Admin     | sojibahmedshorif998@gmail.com | Full admin panel, verify certificates (owner-only — restricted via `ADMIN_LOGIN_EMAIL`; password is set by owner, not shared) |
 | Student   | sojib@student.dev      | Courses, projects, apply jobs, certificates |
 | Recruiter | recruiter1@company.dev | Post/manage jobs, view applicants |
 
@@ -134,6 +134,7 @@ curl -H "Origin: https://job-student-task.vercel.app" https://job-student-task.o
 - [x] Google OAuth redirect URI (production)
 - [ ] Google Console redirect URI saved (user action)
 - [ ] SMTP/Resend key for live reset emails (user action)
+- [ ] Render env: `ADMIN_LOGIN_EMAIL` + `ADMIN_LOGIN_PASSWORD` (user action — admin login stays owner-only)
 
 ---
 
