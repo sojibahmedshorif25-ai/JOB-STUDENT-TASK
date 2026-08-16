@@ -96,13 +96,13 @@ export default function ApplicantDetailPage() {
 
   return (
     <RecruiterDashboard headerTitle="Application">
-      <div className="mb-6 flex items-center gap-3">
+      <div className="mb-6 flex flex-wrap items-center gap-3">
         <Button variant="ghost" size="iconSm" onClick={() => router.push("/recruiter/applicants")}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{student?.name || "Applicant"}</h1>
-          <p className="text-sm text-muted-foreground">
+        <div className="min-w-0 flex-1">
+          <h1 className="truncate text-2xl font-bold tracking-tight">{student?.name || "Applicant"}</h1>
+          <p className="truncate text-sm text-muted-foreground">
             Application for <span className="font-medium">{job?.title || "job"}</span>
           </p>
         </div>

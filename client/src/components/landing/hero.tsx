@@ -64,7 +64,7 @@ export function Hero() {
               </Button>
             </div>
 
-            <div className="flex items-center gap-6 pt-2">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2">
               <div className="flex -space-x-3">
                 {["JS", "RA", "MC", "AS"].map((initials, i) => (
                   <Avatar key={i} className="h-9 w-9 border-2 border-background">

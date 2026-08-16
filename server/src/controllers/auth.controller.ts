@@ -80,6 +80,10 @@ export const login = catchAsync(async (req: Request, res: Response) => {
 
   if (!user.isActive) throw new AppError('This account has been deactivated', 403);
 
+  if (user.role === 'ADMIN' && env.adminLoginEmail && user.email !== env.adminLoginEmail) {
+    throw new AppError('Admin access is restricted', 403);
+  }
+
   const token = signToken({ id: String(user._id), role: user.role, email: user.email });
 
   const safeUser = {

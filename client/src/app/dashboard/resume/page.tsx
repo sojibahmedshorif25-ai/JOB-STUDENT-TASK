@@ -388,7 +388,7 @@ function ResumeBuilder() {
           </div>
         </div>
         <div className="overflow-hidden rounded-xl border bg-white shadow-lg" id="resume-preview">
-          <div className="mx-auto max-w-[794px] p-8 text-neutral-900" style={{ color: "#1a1a1a" }}>
+          <div className="mx-auto max-w-[794px] p-4 text-neutral-900 sm:p-8" style={{ color: "#1a1a1a" }}>
             <div style={{ borderBottom: `3px solid ${primaryColor}`, paddingBottom: 16, marginBottom: 16 }}>
               <h1 className="text-3xl font-bold" style={{ color: "#111" }}>
                 {field("fullName") || "Your Name"}

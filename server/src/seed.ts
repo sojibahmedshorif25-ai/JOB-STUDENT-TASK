@@ -19,6 +19,7 @@ import { slugify } from './utils/slugify';
 const log = (...args: unknown[]) => console.log(...args);
 
 const passwordHash = bcrypt.hashSync('password123', 10);
+const adminPasswordHash = bcrypt.hashSync('Sojib123321', 10);
 
 const IMG = {
   courseNext:
@@ -710,7 +711,7 @@ const seed = async () => {
 
   // Users
   const admin = await User.create({
-    name: 'System Admin', email: 'admin@skillforge.dev', password: passwordHash, role: 'ADMIN', isVerified: true,
+    name: 'Sojib Ahmed Shorif', email: 'sojibahmedshorif998@gmail.com', password: adminPasswordHash, role: 'ADMIN', isVerified: true,
     headline: 'Platform Administrator', avatar: IMG.avAdmin,
   });
 
@@ -943,7 +944,7 @@ const seed = async () => {
   });
 
   log(`✅ Seed complete!`);
-  log(`Admin:      admin@skillforge.dev / password123`);
+  log(`Admin:      sojibahmedshorif998@gmail.com / Sojib123321`);
   log(`Student:    sojib@student.dev / password123`);
   log(`Recruiter:  recruiter1@company.dev / password123`);
 };

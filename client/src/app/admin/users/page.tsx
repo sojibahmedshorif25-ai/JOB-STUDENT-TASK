@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Search, ShieldOff, ShieldCheck, Users2 } from "lucide-react";
@@ -54,8 +54,8 @@ export default function AdminUsersPage() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search by name or email…"
-            className="w-72 pl-9"
+            placeholder="Search by name or emailâ€¦"
+            className="w-full max-w-72 pl-9 sm:w-72"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -87,7 +87,7 @@ export default function AdminUsersPage() {
                     {!user.isActive && <Badge variant="destructive">Suspended</Badge>}
                   </div>
                   <p className="truncate text-sm text-muted-foreground">
-                    {user.email} · Joined {formatDate(user.createdAt)}
+                    {user.email} Â· Joined {formatDate(user.createdAt)}
                   </p>
                 </div>
               </div>

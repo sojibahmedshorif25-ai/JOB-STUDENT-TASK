@@ -162,11 +162,11 @@ function ApplyContent({ jobId }: { jobId: string }) {
             <div className="space-y-2">
               <Label>Resume</Label>
               {resumeData?.data ? (
-                <div className="flex items-center justify-between rounded-lg border bg-secondary/30 px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-primary" />
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border bg-secondary/30 px-4 py-3">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <FileText className="h-4 w-4 shrink-0 text-primary" />
                     <span className="text-sm font-medium">Resume on file</span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="truncate text-xs text-muted-foreground">
                       {resumeData.data.personal?.fullName || "My Resume"}
                     </span>
                   </div>

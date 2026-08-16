@@ -12,6 +12,8 @@ export const env = {
   googleClientId: process.env.GOOGLE_CLIENT_ID || '',
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
   betterAuthSecret: process.env.BETTER_AUTH_SECRET || 'skillforge-better-auth-secret',
+  adminLoginEmail: process.env.ADMIN_LOGIN_EMAIL || '',
+  adminLoginPassword: process.env.ADMIN_LOGIN_PASSWORD || '',
   serverUrl: process.env.SERVER_URL || `http://localhost:${process.env.PORT || 5000}`,
   smtpHost: process.env.SMTP_HOST || '',
   smtpPort: Number(process.env.SMTP_PORT || 587),

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
@@ -35,7 +35,7 @@ export default function AdminCoursesPage() {
         </div>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search courses…" className="w-72 pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Input placeholder="Search coursesâ€¦" className="w-full max-w-72 pl-9 sm:w-72" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
       </div>
 
@@ -74,7 +74,7 @@ export default function AdminCoursesPage() {
                       {course.featured && <Badge variant="accent">Featured</Badge>}
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      {course.category || "—"} · {course.level || "—"} · {course.studentsEnrolled ?? 0} enrolled · Created {formatDate(course.createdAt)}
+                      {course.category || "â€”"} Â· {course.level || "â€”"} Â· {course.studentsEnrolled ?? 0} enrolled Â· Created {formatDate(course.createdAt)}
                     </p>
                   </div>
                 </div>

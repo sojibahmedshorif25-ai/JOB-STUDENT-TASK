@@ -332,6 +332,7 @@ function LearningContent({ courseId }: { courseId: string }) {
       <div className="flex flex-1 flex-col lg:flex-row">
         {/* Curriculum sidebar */}
         <aside className="w-full shrink-0 border-b bg-card lg:w-80 lg:border-b-0 lg:border-r lg:overflow-y-auto" style={{ maxHeight: "calc(100vh - 3.5rem)" }}>
+          <div className="max-h-72 overflow-y-auto lg:max-h-none lg:overflow-y-auto">
           <div className="border-b p-4">
             <p className="text-sm font-semibold">Course content</p>
             <p className="text-xs text-muted-foreground">
@@ -378,6 +379,7 @@ function LearningContent({ courseId }: { courseId: string }) {
               </div>
             ))}
           </nav>
+          </div>
         </aside>
 
         {/* Lesson content */}

@@ -152,7 +152,7 @@ export default function DashboardPage() {
                           >
                             {i + 1}
                           </span>
-                          <span className="text-[10px] text-muted-foreground">{status}</span>
+                          <span className="hidden text-[10px] text-muted-foreground sm:block">{status}</span>
                         </div>
                         {i < STATUS_FLOW.length - 1 && (
                           <div className={`h-0.5 flex-1 rounded ${hasReached ? "bg-primary" : "bg-muted"}`} />

@@ -58,18 +58,19 @@ function CertificateDetail() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 px-4 py-10 print:py-0">
-      <div className="flex items-center justify-between print:hidden">
+      <div className="flex flex-wrap items-center justify-between gap-2 print:hidden">
         <Button variant="outline" onClick={() => window.history.back()}>
           Back
         </Button>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button onClick={download}>
             <Download className="h-4 w-4" />
-            Download PDF
+            <span className="hidden sm:inline">Download PDF</span>
+            <span className="sm:hidden">PDF</span>
           </Button>
           <Button variant="outline" onClick={share}>
             <Share2 className="h-4 w-4" />
-            Share
+            <span className="hidden sm:inline">Share</span>
           </Button>
         </div>
       </div>

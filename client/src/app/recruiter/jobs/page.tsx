@@ -31,7 +31,7 @@ export default function RecruiterJobsPage() {
 
   return (
     <RecruiterDashboard headerTitle="My jobs">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">My jobs</h1>
           <p className="text-sm text-muted-foreground">Manage your posted jobs and their applicants.</p>
