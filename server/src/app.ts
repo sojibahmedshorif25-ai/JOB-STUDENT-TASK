@@ -25,6 +25,9 @@ import { toNodeHandler } from 'better-auth/node';
 
 const app: Application = express();
 
+// Trust the first proxy hop (Render) so rate limiters get the real client IP from X-Forwarded-For
+app.set('trust proxy', 1);
+
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },

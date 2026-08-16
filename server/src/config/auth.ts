@@ -22,6 +22,12 @@ export const auth = betterAuth({
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean),
+  advanced: {
+    ipAddress: {
+      trustedProxies: ['0.0.0.0/0'],
+      ipAddressHeaders: ['x-forwarded-for'],
+    },
+  },
   socialProviders: {
     google: {
       clientId: env.googleClientId,
