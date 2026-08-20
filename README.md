@@ -54,21 +54,3 @@ src/
 
 ## License
 MIT Â© 2026 Sojib Ahmed
-
-
----
-
-## Roadmap
-
-### v1.1 (Next Release)
-- [ ] Dark mode support
-- [ ] Performance optimization
-- [ ] Additional language support
-- [ ] Enhanced search functionality
-
-### v1.2 (Future)
-- [ ] Mobile app (React Native)
-- [ ] Real-time notifications
-- [ ] Advanced analytics
-
-> Last updated: 2026-08-19
