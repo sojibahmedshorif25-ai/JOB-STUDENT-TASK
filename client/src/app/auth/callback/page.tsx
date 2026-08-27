@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { post, setToken, USER_KEY } from "@/lib/api";
 import { useAuth } from "@/contexts/auth-context";
@@ -13,13 +13,26 @@ const DASHBOARD_PATHS: Record<string, string> = {
   ADMIN: "/admin",
 };
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { setUser } = useAuth();
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     let cancelled = false;
+
+    const handleError = searchParams.get("error");
+    if (handleError) {
+      if (!cancelled) {
+        setError(
+          handleError === "state_mismatch"
+            ? "Google sign-in failed (state mismatch). Please try again."
+            : `Google sign-in failed: ${handleError}`
+        );
+      }
+      return;
+    }
 
     const handleCallback = async () => {
       try {
@@ -50,7 +63,7 @@ export default function AuthCallbackPage() {
     return () => {
       cancelled = true;
     };
-  }, [router, setUser]);
+  }, [router, setUser, searchParams]);
 
   if (error) {
     return (
@@ -69,5 +82,20 @@ export default function AuthCallbackPage() {
       <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
       <p className="text-muted-foreground">Signing you in with Google...</p>
     </div>
+  );
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <div className="flex min-h-screen flex-col items-center justify-center gap-4 p-6 text-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-muted-foreground">Signing you in with Google...</p>
+        </div>
+      }
+    >
+      <AuthCallbackContent />
+    </React.Suspense>
   );
 }

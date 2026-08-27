@@ -27,11 +27,16 @@ export const auth = betterAuth({
       trustedProxies: ['0.0.0.0/0'],
       ipAddressHeaders: ['x-forwarded-for'],
     },
+    defaultCookieAttributes: {
+      sameSite: 'none',
+      secure: true,
+    },
   },
   socialProviders: {
     google: {
       clientId: env.googleClientId,
       clientSecret: env.googleClientSecret,
+      redirectURI: `${env.serverUrl}/api/auth/callback/google`,
     },
   },
 });

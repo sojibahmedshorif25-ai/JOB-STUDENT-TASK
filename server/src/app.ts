@@ -86,6 +86,16 @@ app.use('/api/companies', companyRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 
+app.get('/', (req: Request, res: Response) => {
+  const clientBase = env.clientUrl.split(',')[0].trim();
+  const qs = new URLSearchParams();
+  for (const [key, val] of Object.entries(req.query)) {
+    if (typeof val === 'string') qs.set(key, val);
+  }
+  const query = qs.toString();
+  res.redirect(`${clientBase}/${query ? `?${query}` : ''}`);
+});
+
 app.use(notFound);
 app.use(errorHandler);
 
