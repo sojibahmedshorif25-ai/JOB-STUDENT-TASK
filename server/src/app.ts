@@ -87,7 +87,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-  const clientBase = env.clientUrl.split(',')[0].trim();
+  const clientBase = env.clientUrl.split(',').map((u) => u.trim()).find((u) => u && !u.startsWith('http://localhost')) || env.clientUrl.split(',')[0].trim();
   const qs = new URLSearchParams();
   for (const [key, val] of Object.entries(req.query)) {
     if (typeof val === 'string') qs.set(key, val);
