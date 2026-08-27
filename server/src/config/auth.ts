@@ -36,7 +36,6 @@ export const auth = betterAuth({
     google: {
       clientId: env.googleClientId,
       clientSecret: env.googleClientSecret,
-      redirectURI: `${env.serverUrl}/api/auth/callback/google`,
     },
   },
 });
