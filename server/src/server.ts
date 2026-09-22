@@ -5,41 +5,47 @@ import { User } from './models';
 import bcrypt from 'bcryptjs';
 
 const syncAdminAccount = async () => {
-  const targetEmail = env.adminLoginEmail || 'sojibahmedshorif25@gmail.com';
-  const targetPassword = env.adminLoginPassword || 'Sojibboss@321946##';
-  const hashedPassword = bcrypt.hashSync(targetPassword, 10);
+  try {
+    const targetEmail = (env.adminLoginEmail || 'sojibahmedshorif25@gmail.com').toLowerCase().trim();
+    const targetPassword = env.adminLoginPassword || 'Sojibboss@321946##';
+    const hashedPassword = bcrypt.hashSync(targetPassword, 10);
 
-  let admin = await User.findOne({ email: targetEmail });
-  if (!admin) {
-    admin = await User.findOne({ role: 'ADMIN' });
-  }
-
-  if (admin) {
-    await User.updateOne(
-      { _id: admin._id },
-      {
-        $set: {
-          email: targetEmail,
-          password: hashedPassword,
-          name: 'Sojib Ahmed Shorif',
-          role: 'ADMIN',
-          isVerified: true,
-          isActive: true,
-        },
-      }
+    // Demote any other ADMIN accounts if not targetEmail
+    await User.updateMany(
+      { role: 'ADMIN', email: { $ne: targetEmail } },
+      { $set: { role: 'STUDENT' } }
     );
-    console.log(`[admin] Admin account synced for ${targetEmail}`);
-  } else {
-    await User.create({
-      name: 'Sojib Ahmed Shorif',
-      email: targetEmail,
-      password: hashedPassword,
-      role: 'ADMIN',
-      isVerified: true,
-      isActive: true,
-      headline: 'Platform Administrator & Founder',
-    });
-    console.log(`[admin] Admin account created for ${targetEmail}`);
+
+    let admin = await User.findOne({ email: targetEmail });
+    if (admin) {
+      await User.updateOne(
+        { _id: admin._id },
+        {
+          $set: {
+            email: targetEmail,
+            password: hashedPassword,
+            name: admin.name || 'Sojib Ahmed Shorif',
+            role: 'ADMIN',
+            isVerified: true,
+            isActive: true,
+          },
+        }
+      );
+      console.log(`[admin] Admin account synced for ${targetEmail}`);
+    } else {
+      await User.create({
+        name: 'Sojib Ahmed Shorif',
+        email: targetEmail,
+        password: hashedPassword,
+        role: 'ADMIN',
+        isVerified: true,
+        isActive: true,
+        headline: 'Platform Administrator & Founder',
+      });
+      console.log(`[admin] Admin account created for ${targetEmail}`);
+    }
+  } catch (error) {
+    console.error('[admin] Error syncing admin account:', error);
   }
 };
 

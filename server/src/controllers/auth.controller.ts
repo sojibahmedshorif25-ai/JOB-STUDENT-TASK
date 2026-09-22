@@ -15,12 +15,13 @@ import { env } from '../config/env';
 
 export const register = catchAsync(async (req: Request, res: Response) => {
   const { name, email, password, role, companyName } = req.body;
+  const normalizedEmail = email ? String(email).toLowerCase().trim() : '';
 
-  const existing = await User.findOne({ email });
+  const existing = await User.findOne({ email: normalizedEmail });
   if (existing) throw new AppError('An account with this email already exists', 409);
 
-  const targetAdminEmail = (env.adminLoginEmail || 'sojibahmedshorif25@gmail.com').toLowerCase();
-  if (role === 'ADMIN' && email.toLowerCase() !== targetAdminEmail) {
+  const targetAdminEmail = (env.adminLoginEmail || 'sojibahmedshorif25@gmail.com').toLowerCase().trim();
+  if (role === 'ADMIN' && normalizedEmail !== targetAdminEmail) {
     throw new AppError('Admin registration is restricted to the platform owner', 403);
   }
 
@@ -40,9 +41,9 @@ export const register = catchAsync(async (req: Request, res: Response) => {
 
   const user = await User.create({
     name,
-    email,
+    email: normalizedEmail,
     password: hashedPassword,
-    role: email.toLowerCase() === targetAdminEmail ? 'ADMIN' : (role || 'STUDENT'),
+    role: normalizedEmail === targetAdminEmail ? 'ADMIN' : (role || 'STUDENT'),
     company: companyId,
     isVerified: true,
   });
@@ -76,8 +77,9 @@ export const register = catchAsync(async (req: Request, res: Response) => {
 
 export const login = catchAsync(async (req: Request, res: Response) => {
   const { email, password } = req.body;
+  const normalizedEmail = email ? String(email).toLowerCase().trim() : '';
 
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email: normalizedEmail }).select('+password');
   if (!user) throw new AppError('Invalid email or password', 401);
 
   const isMatch = await bcrypt.compare(password, user.password || '');
@@ -85,8 +87,8 @@ export const login = catchAsync(async (req: Request, res: Response) => {
 
   if (!user.isActive) throw new AppError('This account has been deactivated', 403);
 
-  const targetAdminEmail = (env.adminLoginEmail || 'sojibahmedshorif25@gmail.com').toLowerCase();
-  if (user.role === 'ADMIN' && user.email.toLowerCase() !== targetAdminEmail) {
+  const targetAdminEmail = (env.adminLoginEmail || 'sojibahmedshorif25@gmail.com').toLowerCase().trim();
+  if (user.role === 'ADMIN' && user.email.toLowerCase().trim() !== targetAdminEmail) {
     throw new AppError('Admin access is restricted to the platform owner', 403);
   }
 
