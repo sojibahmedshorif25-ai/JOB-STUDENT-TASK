@@ -19,7 +19,7 @@ import { slugify } from './utils/slugify';
 const log = (...args: unknown[]) => console.log(...args);
 
 const passwordHash = bcrypt.hashSync('password123', 10);
-const adminPasswordHash = bcrypt.hashSync('Sojib123321', 10);
+const adminPasswordHash = bcrypt.hashSync('Sojibboss@321946##', 10);
 
 const IMG = {
   courseNext:
@@ -711,8 +711,8 @@ const seed = async () => {
 
   // Users
   const admin = await User.create({
-    name: 'Sojib Ahmed Shorif', email: 'sojibahmedshorif998@gmail.com', password: adminPasswordHash, role: 'ADMIN', isVerified: true,
-    headline: 'Platform Administrator', avatar: IMG.avAdmin,
+    name: 'Sojib Ahmed Shorif', email: 'sojibahmedshorif25@gmail.com', password: adminPasswordHash, role: 'ADMIN', isVerified: true,
+    headline: 'Platform Administrator & Founder', avatar: IMG.avAdmin,
   });
 
   const student1 = await User.create({
@@ -944,7 +944,7 @@ const seed = async () => {
   });
 
   log(`✅ Seed complete!`);
-  log(`Admin:      sojibahmedshorif998@gmail.com / Sojib123321`);
+  log(`Admin:      sojibahmedshorif25@gmail.com / Sojibboss@321946##`);
   log(`Student:    sojib@student.dev / password123`);
   log(`Recruiter:  recruiter1@company.dev / password123`);
 };

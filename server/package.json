@@ -8,6 +8,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "seed": "tsx src/seed.ts",
+    "test": "tsx src/tests/api.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

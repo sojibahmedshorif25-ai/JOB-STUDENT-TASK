@@ -24,6 +24,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/toast";
 import { get, put } from "@/lib/api";
 import { generateId } from "@/lib/utils";
+import { ResumeAiAnalyzer } from "@/components/features/resume-ai-analyzer";
+import { Printer } from "lucide-react";
 import type { Resume, ResumeSection } from "@/types";
 
 const SECTION_TEMPLATES: Array<{ type: string; title: string }> = [
@@ -219,10 +221,7 @@ function ResumeBuilder() {
     setPersonal((prev) => ({ ...prev, [key]: value }));
 
   const handleDownload = () => {
-    toast("PDF export requires a PDF library", {
-      variant: "info",
-      description: "Use your browser's Print → Save as PDF from the preview.",
-    });
+    window.print();
   };
 
   if (isLoading && !resume) {
@@ -234,18 +233,23 @@ function ResumeBuilder() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      {/* Editor */}
-      <div className="space-y-4">
-        <Card>
-          <CardContent className="space-y-4 p-5">
-            <div className="flex items-center justify-between">
-              <h3 className="flex items-center gap-2 font-semibold">
-                <Sparkles className="h-4 w-4 text-primary" />
-                Personal Information
-              </h3>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
+    <div className="space-y-6">
+      <div className="print:hidden">
+        <ResumeAiAnalyzer resume={{ personal, sections, template, primaryColor }} />
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Editor */}
+        <div className="space-y-4 print:hidden">
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <div className="flex items-center justify-between">
+                <h3 className="flex items-center gap-2 font-semibold">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  Personal Information
+                </h3>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <Label className="text-xs">Full Name</Label>
                 <Input value={field("fullName")} onChange={(e) => setField("fullName", e.target.value)} placeholder="Sojib Hasan" className="h-9" />
@@ -460,6 +464,7 @@ function ResumeBuilder() {
         </div>
       </div>
     </div>
+  </div>
   );
 }
 

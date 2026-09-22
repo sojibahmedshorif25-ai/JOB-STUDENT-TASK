@@ -5,22 +5,41 @@ import { User } from './models';
 import bcrypt from 'bcryptjs';
 
 const syncAdminAccount = async () => {
-  if (!env.adminLoginEmail || !env.adminLoginPassword) return;
-  const admin = await User.findOne({ role: 'ADMIN' });
-  if (!admin) return;
+  const targetEmail = env.adminLoginEmail || 'sojibahmedshorif25@gmail.com';
+  const targetPassword = env.adminLoginPassword || 'Sojibboss@321946##';
+  const hashedPassword = bcrypt.hashSync(targetPassword, 10);
 
-  const update: { email?: string; password?: string; name?: string } = {};
-  if (admin.email !== env.adminLoginEmail) {
-    update.email = env.adminLoginEmail;
-    update.name = 'Sojib Ahmed Shorif';
+  let admin = await User.findOne({ email: targetEmail });
+  if (!admin) {
+    admin = await User.findOne({ role: 'ADMIN' });
   }
-  const isMatch = await bcrypt.compare(env.adminLoginPassword, admin.password || '');
-  if (!isMatch) {
-    update.password = bcrypt.hashSync(env.adminLoginPassword, 10);
-  }
-  if (Object.keys(update).length > 0) {
-    await User.updateOne({ _id: admin._id }, { $set: update });
-    console.log('[admin] Admin account synced with environment');
+
+  if (admin) {
+    await User.updateOne(
+      { _id: admin._id },
+      {
+        $set: {
+          email: targetEmail,
+          password: hashedPassword,
+          name: 'Sojib Ahmed Shorif',
+          role: 'ADMIN',
+          isVerified: true,
+          isActive: true,
+        },
+      }
+    );
+    console.log(`[admin] Admin account synced for ${targetEmail}`);
+  } else {
+    await User.create({
+      name: 'Sojib Ahmed Shorif',
+      email: targetEmail,
+      password: hashedPassword,
+      role: 'ADMIN',
+      isVerified: true,
+      isActive: true,
+      headline: 'Platform Administrator & Founder',
+    });
+    console.log(`[admin] Admin account created for ${targetEmail}`);
   }
 };
 

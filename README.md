@@ -1,354 +1,204 @@
 <div align="center">
 
-# 🎓 SkillForge — Learning & Job Platform
+# 🎓 SkillForge — Full-Stack Learning & Career Recruitment Platform
 
-### *Empowering Students, Connecting Recruiters*
+### *Empowering Students, Connecting Recruiters, Accelerating Tech Careers*
 
-![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js&logoColor=white)
-![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-8-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.3-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4.21-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB Atlas](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://job-student-task.vercel.app)
-[![Server API](https://img.shields.io/badge/Server_API-Render-4D6E4F?style=for-the-badge&logo=render&logoColor=white)](https://job-student-task.onrender.com)
+[![Live Demo](https://img.shields.io/badge/Live_Client-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://job-student-task.vercel.app)
+[![Server API](https://img.shields.io/badge/Server_API-Render-4D6E4F?style=flat-square&logo=render&logoColor=white)](https://job-student-task.onrender.com)
+[![API Docs](https://img.shields.io/badge/API_Docs-Interactive-purple?style=flat-square&logo=swagger)](https://job-student-task.vercel.app/api-docs)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
 </div>
 
 ---
 
-## 📖 Overview
+## 🌐 Live Deployments & API Explorer
 
-**SkillForge** is a comprehensive full-stack learning and job platform featuring courses with video lessons & quizzes, project showcases, company profiles, job listings, interview preparation, certificate generation, and recruiter workflows. Built with role-based access for **Students**, **Recruiters**, and **Admins**.
-
----
-
-## ✨ Key Features
-
-### 🎓 For Students
-| Feature | Description |
-|---------|-------------|
-| 📚 **Course Catalog** | Browse courses by category, level & price |
-| 🎥 **Video Lessons** | In-browser learning player |
-| 📝 **Quizzes** | Test knowledge with auto-grading |
-| 🏆 **Certificates** | Earn certificates on course completion |
-| 💼 **Job Board** | Browse & apply to jobs |
-| 💾 **Save Jobs** | Bookmark interesting opportunities |
-| 📁 **Projects** | Showcase your work |
-| 🎤 **Interview Prep** | Practice with question bank |
-
-### 👔 For Recruiters
-| Feature | Description |
-|---------|-------------|
-| 🏢 **Company Profile** | Create & manage company page |
-| 📋 **Job Posting** | Post jobs with detailed requirements |
-| 👥 **Applicant Tracking** | Review applications (Applied → Shortlisted → Interview → Offer) |
-| 📅 **Interview Scheduling** | Schedule interviews with meeting links |
-| ⭐ **Feedback System** | Rate candidates with detailed feedback |
-
-### 🔧 For Admin
-| Feature | Description |
-|---------|-------------|
-| 📊 **Dashboard** | Platform-wide analytics |
-| 👤 **User Management** | View, activate/deactivate users |
-| 📚 **Course Management** | Create, edit, delete courses |
-| ✅ **Company Verification** | Verify company profiles |
-| 📈 **Reports** | Detailed platform reports |
+- **Production Client (Next.js 16):** [https://job-student-task.vercel.app](https://job-student-task.vercel.app)
+- **Production Server (Express API):** [https://job-student-task.onrender.com](https://job-student-task.onrender.com)
+- **Interactive REST API Reference:** [https://job-student-task.vercel.app/api-docs](https://job-student-task.vercel.app/api-docs)
+- **System Health Check:** [https://job-student-task.onrender.com/api/health](https://job-student-task.onrender.com/api/health)
+- **GitHub Repository:** [https://github.com/sojibahmedshorif25-ai/JOB-STUDENT-TASK](https://github.com/sojibahmedshorif25-ai/JOB-STUDENT-TASK)
 
 ---
 
-## 🛠️ Tech Stack
+## 🏗️ System Architecture
 
-### Client
+```mermaid
+flowchart TB
+    subgraph Client["Frontend Layer (Next.js 16 App Router)"]
+        UI["Modern UI (Tailwind CSS v4 + Radix)"]
+        RQ["TanStack React Query (Cached State)"]
+        SANDBOX["In-Browser Coding Sandbox"]
+        AI_INT["AI Interview Evaluator & ATS Scanner"]
+        PORTFOLIO["Public Candidate Portfolio (/u/:id)"]
+    end
 
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 16** | App Router + Turbopack |
-| **React 19** | UI library |
-| **TypeScript** | Type safety |
-| **Tailwind CSS v4** | Styling |
-| **TanStack Query v5** | Server state management |
-| **React Hook Form + Zod** | Form handling & validation |
-| **better-auth** | Google OAuth integration |
-| **Radix UI** | Accessible primitives (14 components) |
-| **next-themes** | Dark/light mode |
+    subgraph API["Backend Layer (Node.js & Express + TypeScript)"]
+        AUTH["Auth Service (JWT + Google OAuth 2.0)"]
+        GUARD["RBAC Security & Rate Limiting"]
+        CACHE["High-Performance HTTP Caching"]
+        ROUTERS["40+ REST API Endpoints"]
+        TESTS["Automated Test Runner"]
+    end
 
-### Server
+    subgraph DB["Database & Cloud Services"]
+        MONGO[("MongoDB Atlas (Mongoose ODM)")]
+        EMAIL["Nodemailer & Resend API"]
+        LINKEDIN["LinkedIn Certification API"]
+    end
 
-| Technology | Purpose |
-|------------|---------|
-| **Node.js + Express** | HTTP framework |
-| **TypeScript** | Type safety |
-| **MongoDB + Mongoose** | Database & ODM |
-| **JWT + bcryptjs** | Authentication & hashing |
-| **better-auth** | Google OAuth |
-| **Nodemailer / Resend** | Email service |
-| **Helmet** | Security headers |
-| **Morgan** | HTTP logging |
-| **express-rate-limit** | Rate limiting |
-
----
-
-## 📁 Project Structure
-
-```
-JOB-STUDENT-TASK/
-├── client/                              # 🎨 Next.js 16 Frontend
-│   └── src/
-│       ├── app/                         # App Router pages
-│       │   ├── (auth)/                  # Login, Register, Forgot/Reset Password
-│       │   ├── admin/                   # Admin dashboard
-│       │   ├── auth/callback/           # Google OAuth callback
-│       │   ├── companies/               # Company listings
-│       │   ├── courses/                 # Course catalog & detail
-│       │   ├── dashboard/               # Student/recruiter dashboard
-│       │   ├── interview-prep/          # Interview preparation
-│       │   ├── jobs/                    # Job listings & detail
-│       │   ├── learn/[courseId]/        # Course learning player
-│       │   ├── projects/                # Project showcase
-│       │   ├── recruiter/               # Recruiter job management
-│       │   ├── verify/[id]/             # Certificate verification
-│       │   ├── layout.tsx
-│       │   └── page.tsx                 # Homepage
-│       ├── components/                  # Reusable UI components
-│       ├── contexts/                    # React contexts
-│       ├── lib/                         # API client, auth-client
-│       └── types/                       # TypeScript types
-│
-├── server/                              # ⚙️ Express + TypeScript Backend
-│   └── src/
-│       ├── config/                      # env, database, auth config
-│       ├── controllers/                 # 13 route controllers
-│       ├── middlewares/                  # auth, error, rateLimit, validate
-│       ├── models/                      # 16 Mongoose schemas
-│       ├── routes/                      # 13 route files
-│       ├── services/                    # mail, notification, slug
-│       ├── utils/                       # token, catchAsync, AppError
-│       ├── validators/                  # Zod schemas
-│       ├── app.ts                       # Express app setup
-│       ├── server.ts                    # Server entry
-│       └── seed.ts                      # Database seeder
-│
-└── README.md
+    Client <-->|HTTPS / REST API| API
+    API <-->|Mongoose Models| MONGO
+    API -->|Email Dispatch| EMAIL
+    Client -->|1-Click Share| LINKEDIN
 ```
 
 ---
 
-## 🗃️ Database Models
+## 👥 Demo Accounts & Role-Based Access Control (RBAC)
 
-| Model | Description |
-|-------|-------------|
-| **User** | Users with roles (Student/Recruiter/Admin), skills, resume |
-| **Company** | Company profiles with social links, verification |
-| **Course** | Courses with modules, lessons, quizzes |
-| **Enrollment** | Student course progress tracking |
-| **Job** | Job listings with filters |
-| **Application** | Job applications with status pipeline |
-| **Certificate** | Course completion certificates |
-| **Interview** | Scheduled interviews with feedback |
-| **InterviewQuestion** | Question bank by category/difficulty |
-| **InterviewProgress** | User progress on questions |
-| **Notification** | In-app notifications |
-| **Project** | Student project showcase |
-| **Resume** | User resume data |
-| **Review** | Course reviews |
-| **SavedJob** | Bookmarked jobs |
+Seed credentials:
+
+| Role | Demo Email | Access Capabilities |
+|:---|:---|:---|
+| **Admin** | `sojibahmedshorif25@gmail.com` | Full platform control, user management, metrics, course oversight (Owner account). |
+| **Student** | `sojib@student.dev` | Enroll courses, video player, quizzes, AI mock interviews, ATS resume builder, certificates, job applications (`password123`). |
+| **Recruiter** | `recruiter1@company.dev` | Post jobs, candidate pipelines, interview scheduling, applicant management (`password123`). |
+
+> **Real Google Login:** Anyone with a real Google/Gmail account can sign in with 1-click via the "Continue with Google" button!
 
 ---
 
-## 📡 API Endpoints
+## ✨ Enterprise Feature Highlights
 
-<details>
-<summary><b>🔐 Authentication</b></summary>
+### 🎓 1. Learning & Certification Engine
+- **Curriculum Player:** Video lessons, module progress tracking, markdown notes, and auto-progression.
+- **Automated Quiz Engine:** Real-time scoring and instant pass/fail validation.
+- **Cryptographic Certificate Verification:** Public verify endpoint (`/verify/:id`) with authentic credential ID and tamper-proof verification.
+- **1-Click LinkedIn Certificate Share:** Instant addition of verified credentials into LinkedIn candidate profiles with pre-filled certification metadata.
+- **Print & PDF Export:** Clean print-media layout for certificate printing.
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register (Student/Recruiter) |
-| POST | `/api/auth/login` | Login |
-| POST | `/api/auth/google` | Google OAuth |
-| POST | `/api/auth/forgot-password` | Send reset email |
-| POST | `/api/auth/reset-password` | Reset password |
-| GET | `/api/auth/me` | Get current user |
+### 🤖 2. AI Career & Interview Tools
+- **AI Mock Interview Simulation:** Timed technical mock interviews with algorithmic scoring across Accuracy, Terminology, Depth, and Clarity.
+- **AI ATS Resume Scanner & Optimizer:** Live ATS compatibility index (0-100%), missing keyword highlights, and impact action-verb suggestions.
+- **Interactive Coding Sandbox:** Live in-browser JavaScript code editor with real-time test-case assertion execution and console output capture.
+- **SkillBot AI Assistant:** Floating interactive AI tutor across the platform.
 
-</details>
-
-<details>
-<summary><b>📚 Courses</b></summary>
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/courses` | List courses |
-| GET | `/api/courses/filters` | Filter options |
-| GET | `/api/courses/:id` | Course detail |
-| POST | `/api/courses` | Create course (Admin) |
-| POST | `/api/courses/:id/reviews` | Add review |
-
-</details>
-
-<details>
-<summary><b>💼 Jobs</b></summary>
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/jobs` | List jobs |
-| GET | `/api/jobs/filters` | Filter options |
-| POST | `/api/jobs` | Post job (Recruiter) |
-| POST | `/api/jobs/:id/save` | Save job (Student) |
-| POST | `/api/jobs/:id/toggle` | Toggle status (Recruiter) |
-
-</details>
-
-<details>
-<summary><b>📋 Applications</b></summary>
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/applications/job/:id` | Apply (Student) |
-| GET | `/api/applications/my` | My applications |
-| GET | `/api/applications/recruiter` | Recruiter applications |
-| PUT | `/api/applications/:id/status` | Update status |
-
-</details>
-
-<details>
-<summary><b>📊 Admin</b></summary>
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/admin/dashboard` | Dashboard stats |
-| GET | `/api/admin/analytics` | Analytics |
-| GET | `/api/admin/users` | All users |
-| PUT | `/api/admin/users/:id/status` | Activate/deactivate |
-| PUT | `/api/admin/companies/:id/verify` | Verify company |
-
-</details>
+### 💼 3. Recruitment & Job Pipeline
+- **Job Board:** Advanced filtering (remote, full-time, salary ranges, required skill tags).
+- **Recruiter Dashboard:** Post jobs, view candidate pipeline, review resumes, and track candidate status (Applied, Interviewing, Offered, Rejected).
+- **Public Developer Portfolio (`/u/:id`):** Sharable candidate profile showcasing verified certificates, projects, and direct "Hire Me" contact modal.
 
 ---
 
-## 👥 Role-Based Access
+## 🗄️ Database Schema & Entity Relationships
 
-| Feature | Student | Recruiter | Admin |
-|---------|:-------:|:---------:|:-----:|
-| Browse courses & jobs | ✅ | ✅ | ✅ |
-| Enroll in courses | ✅ | ❌ | ❌ |
-| Submit quizzes & earn certificates | ✅ | ❌ | ❌ |
-| Apply to jobs | ✅ | ❌ | ❌ |
-| Save/bookmark jobs | ✅ | ❌ | ❌ |
-| Create projects | ✅ | ❌ | ✅ |
-| Post/manage jobs | ❌ | ✅ | ✅ |
-| Manage applications | ❌ | ✅ | ✅ |
-| Schedule interviews | ❌ | ✅ | ✅ |
-| Admin dashboard | ❌ | ❌ | ✅ |
-| Verify companies | ❌ | ❌ | ✅ |
-| Manage courses | ❌ | ❌ | ✅ |
+```mermaid
+erDiagram
+    USER ||--o{ ENROLLMENT : has
+    USER ||--o{ APPLICATION : submits
+    USER ||--o{ CERTIFICATE : earns
+    USER ||--o{ RESUME : builds
+    COURSE ||--o{ ENROLLMENT : contains
+    COURSE ||--o{ CERTIFICATE : issues
+    JOB ||--o{ APPLICATION : receives
+    COMPANY ||--o{ JOB : posts
+
+    USER {
+        string _id
+        string name
+        string email
+        string role "STUDENT | RECRUITER | ADMIN"
+        string avatar
+    }
+    COURSE {
+        string _id
+        string title
+        string level
+        number price
+        array modules
+    }
+    CERTIFICATE {
+        string certificateId
+        date issueDate
+        objectId user
+        objectId course
+    }
+    JOB {
+        string _id
+        string title
+        string salary
+        string location
+        array skills
+    }
+```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quickstart & Local Development
 
-### Prerequisites
-
-- **Node.js** ≥ 18.0
-- **MongoDB Atlas** account
-- **Google Cloud** OAuth credentials
-
-### Installation
-
+### Option A: 1-Command Startup with Docker Compose
 ```bash
-# Clone the repository
-git clone https://github.com/sojibahmedshorif25-ai/JOB-STUDENT-TASK.git
-
-# Install Client
-cd client && npm install
-
-# Install Server
-cd ../server && npm install
+docker-compose up --build
 ```
+- Client running on: `http://localhost:3000`
+- Server API running on: `http://localhost:5000`
+- MongoDB running on: `mongodb://localhost:27017`
 
-### Environment Variables
+---
 
-```env
-# Server
-PORT=5000
-NODE_ENV=development
-MONGODB_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/skillforge
-JWT_SECRET=your_jwt_secret
-CLIENT_URL=http://localhost:3000
-SERVER_URL=http://localhost:5000
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-BETTER_AUTH_SECRET=your_auth_secret
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your_email@gmail.com
-SMTP_PASS=your_app_password
-MAIL_FROM=noreply@skillforge.com
+### Option B: Standard NPM Setup
 
-# Client
-NEXT_PUBLIC_API_URL=http://localhost:5000
-NEXT_PUBLIC_AUTH_URL=http://localhost:5000
-```
-
-### Seed Database
-
+#### 1. Backend Server Setup (Port 5000)
 ```bash
 cd server
-npm run seed
+npm install
+copy .env.example .env     # Configure MONGODB_URI and JWT_SECRET
+npm run seed              # Seed initial courses, jobs, and demo users
+npm run dev               # Starts tsx watch server
 ```
 
-### Run Development
+#### 2. Frontend Client Setup (Port 3000)
+```bash
+cd client
+npm install
+copy .env.example .env.local
+npm run dev               # Starts Next.js Turbopack dev server
+```
+
+---
+
+## 🧪 Automated Testing & Quality Assurance
 
 ```bash
-# Terminal 1 — Client (http://localhost:3000)
-cd client && npm run dev
+# Run backend automated integration tests
+cd server
+npm test
 
-# Terminal 2 — Server (http://localhost:5000)
-cd server && npm run dev
+# Run TypeScript typechecks
+cd server && npm run typecheck
+cd client && npm run build
 ```
 
-### Demo Credentials
+---
 
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@skillforge.com | password123 |
-| Student | student@skillforge.com | password123 |
-| Recruiter | recruiter@skillforge.com | password123 |
+## 💼 CV & Interview Guide
+
+For resume bullet points, quantifiable metrics, and answers to high-frequency technical interview questions about this project, refer to **[`CV_PORTFOLIO_GUIDE.md`](./CV_PORTFOLIO_GUIDE.md)**.
 
 ---
 
-## 🌐 Deployment
+## 📄 License
 
-| Service | Platform | Notes |
-|---------|----------|-------|
-| Frontend | **Vercel** | Root: `client`, Framework: Next.js |
-| Backend | **Render** | Root: `server`, Build: `npm install && npm run build` |
-| Database | **MongoDB Atlas** | M0 Free tier |
-
----
-
-## 📊 Seed Data
-
-The seeder creates:
-- 👥 **3 Users** — Admin, Student, Recruiter
-- 🏢 **10 Companies** — TechNova, CloudPeak, CodeVerse, etc.
-- 📚 **10 Courses** — Next.js, JavaScript, React+TS, Node.js, etc.
-- 💼 **20+ Jobs** — Frontend, Backend, DevOps, Full Stack, etc.
-- 📁 **10 Projects** — DevMatch, CourseForge, SkillSync, etc.
-- 🎤 **22 Interview Questions** — Across multiple categories & difficulties
-
----
-
-## 👨‍💻 Author
-
-**Sojib Ahmed**
-
-[![GitHub](https://img.shields.io/badge/GitHub-sojibahmedshorif25--ai-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sojibahmedshorif25-ai)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Sojib_Ahmed-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sojib-ahmed-shorif)
-
----
-
-<div align="center">
-
-**⭐ Star this repo if you find it impressive!**
-
-</div>
+This project is licensed under the [MIT License](./LICENSE). Built by **Sojib Ahmed Shorif**.

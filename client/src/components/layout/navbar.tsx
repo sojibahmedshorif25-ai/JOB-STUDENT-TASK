@@ -17,6 +17,7 @@ import {
   LayoutDashboard,
   UserCircle2,
   LogOut,
+  FileCode2,
 } from "lucide-react";
 
 import { Logo } from "@/components/layout/logo";
@@ -43,6 +44,7 @@ const NAV_LINKS = [
   { href: "/projects", label: "Projects", icon: FolderGit2 },
   { href: "/interview-prep", label: "Interview Prep", icon: MessagesSquare },
   { href: "/companies", label: "Companies", icon: Users },
+  { href: "/api-docs", label: "API Docs", icon: FileCode2 },
 ];
 
 const DASHBOARD_PATHS: Record<string, string> = {

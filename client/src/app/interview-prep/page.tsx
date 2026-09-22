@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, MessagesSquare, Play, Timer, Trophy } from "lucide-react";
+import { ChevronDown, MessagesSquare, Play, Sparkles, Timer, Trophy } from "lucide-react";
 
 import { PublicLayout } from "@/components/layout/public-layout";
 import { PageHeader } from "@/components/shared/page-header";
@@ -25,6 +25,8 @@ import { useAuth } from "@/contexts/auth-context";
 import { useToast } from "@/components/ui/toast";
 import { get, post } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { evaluateInterviewResponse, type InterviewFeedback } from "@/lib/ai-interview";
+import { CodePlayground } from "@/components/features/code-playground";
 import type { InterviewQuestion } from "@/types";
 
 const DIFFICULTY_COLORS: Record<string, string> = {
@@ -35,6 +37,7 @@ const DIFFICULTY_COLORS: Record<string, string> = {
 
 function QuestionCard({ question }: { question: InterviewQuestion }) {
   const [showAnswer, setShowAnswer] = React.useState(false);
+  const [showAIHint, setShowAIHint] = React.useState(false);
 
   return (
     <Card className="transition-all hover:shadow-md">
@@ -47,7 +50,7 @@ function QuestionCard({ question }: { question: InterviewQuestion }) {
           </div>
         </div>
         <p className="font-medium leading-relaxed">{question.question}</p>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button
             size="sm"
             variant="outline"
@@ -57,10 +60,32 @@ function QuestionCard({ question }: { question: InterviewQuestion }) {
             {showAnswer ? "Hide Answer" : "Show Answer"}
             <ChevronDown className={cn("h-4 w-4 transition-transform", showAnswer && "rotate-180")} />
           </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => setShowAIHint((v) => !v)}
+            className="text-primary hover:bg-primary/10"
+          >
+            <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+            {showAIHint ? "Hide Key Concepts" : "AI Key Concepts"}
+          </Button>
         </div>
+
+        {showAIHint && (
+          <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-xs leading-relaxed text-muted-foreground">
+            <p className="mb-1.5 font-semibold text-primary">💡 Interview Strategy & Key Talking Points:</p>
+            <ul className="list-inside list-disc space-y-1">
+              <li>Start with a high-level definition or problem statement.</li>
+              <li>Explain the underlying mechanism (e.g. memory, event cycle, algorithm).</li>
+              <li>Mention real-world trade-offs or performance considerations.</li>
+              <li>Conclude with a brief production example from your projects.</li>
+            </ul>
+          </div>
+        )}
+
         {showAnswer && question.answer && (
           <div className="rounded-lg bg-secondary/50 p-4 text-sm leading-relaxed text-muted-foreground">
-            <p className="mb-1 font-semibold text-foreground">Answer</p>
+            <p className="mb-1 font-semibold text-foreground">Model Answer</p>
             {question.answer}
           </div>
         )}
@@ -79,12 +104,14 @@ function MockInterview() {
   const [answers, setAnswers] = React.useState<Record<number, string>>({});
   const [seconds, setSeconds] = React.useState(0);
   const [phase, setPhase] = React.useState<"start" | "active" | "done">("start");
-  const [result, setResult] = React.useState<{ score: number; strengths: string[]; weak: string[] } | null>(null);
+  const [feedbacks, setFeedbacks] = React.useState<Record<number, InterviewFeedback>>({});
+  const [overallScore, setOverallScore] = React.useState(0);
 
   const startTimer = React.useCallback(() => {
     setPhase("active");
     setCurrent(0);
     setAnswers({});
+    setFeedbacks({});
     setSeconds(0);
   }, []);
 
@@ -110,18 +137,18 @@ function MockInterview() {
   };
 
   const finishMock = async () => {
-    const answered = questions
-      .filter((_, i) => answers[i] && answers[i].trim().length > 10)
-      .length;
-    const score = Math.round((answered / Math.max(questions.length, 1)) * 100);
-    setResult({
-      score,
-      strengths:
-        score >= 60
-          ? ["You gave complete, thoughtful answers", "Good coverage of the topic"]
-          : ["You attempted all questions"],
-      weak: score < 60 ? ["Answers were too brief", "Add more technical detail"] : [],
+    const fbMap: Record<number, InterviewFeedback> = {};
+    let sum = 0;
+
+    questions.forEach((q, idx) => {
+      const fb = evaluateInterviewResponse(q.category, q.question, answers[idx] || "");
+      fbMap[idx] = fb;
+      sum += fb.score;
     });
+
+    const avg = Math.round(sum / Math.max(questions.length, 1));
+    setFeedbacks(fbMap);
+    setOverallScore(avg);
     setPhase("done");
 
     for (const q of questions) {
@@ -136,38 +163,43 @@ function MockInterview() {
 
   return (
     <>
-      <Button size="lg" variant="gradient" onClick={startMock}>
-        <Play className="h-4 w-4" />
-        Start Mock Interview
+      <Button size="lg" variant="gradient" onClick={startMock} className="gap-2 shadow-lg shadow-primary/20">
+        <Sparkles className="h-4 w-4" />
+        AI Mock Interview
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
           {phase === "start" && (
             <>
               <DialogHeader>
-                <DialogTitle>Mock Interview</DialogTitle>
+                <DialogTitle className="flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-primary" />
+                  AI-Powered Mock Interview
+                </DialogTitle>
                 <DialogDescription>
-                  Answer 5 questions on the spot. We&apos;ll score your responses and show your strengths
-                  and weak areas at the end.
+                  Answer 5 technical questions under realistic interview timing. Our AI evaluator will assess your technical accuracy, keyword coverage, and structure.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {["All", "JavaScript", "React", "Next.js", "Node.js", "MongoDB", "Behavioral"].map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setCategory(c)}
-                    className={cn(
-                      "rounded-lg border px-4 py-3 text-left text-sm font-medium transition-all",
-                      category === c ? "border-primary bg-primary/5 ring-2 ring-primary/30" : "hover:border-primary/40",
-                    )}
-                  >
-                    {c}
-                  </button>
-                ))}
+              <div className="space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Select Category</p>
+                <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+                  {["All", "JavaScript", "React", "Next.js", "Node.js", "MongoDB", "Behavioral"].map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setCategory(c)}
+                      className={cn(
+                        "rounded-lg border px-3.5 py-2.5 text-center text-sm font-medium transition-all",
+                        category === c ? "border-primary bg-primary/10 text-primary font-semibold ring-2 ring-primary/30" : "hover:border-primary/40 text-muted-foreground",
+                      )}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <Button onClick={startTimer} disabled={questions.length === 0}>
-                Begin Interview
+              <Button onClick={startTimer} disabled={questions.length === 0} className="w-full">
+                <Play className="mr-2 h-4 w-4" /> Begin Interview
               </Button>
             </>
           )}
@@ -177,72 +209,117 @@ function MockInterview() {
               <DialogHeader>
                 <DialogTitle className="flex items-center justify-between gap-3">
                   <span>Question {current + 1} of {questions.length}</span>
-                  <span className="flex items-center gap-1.5 text-base font-mono">
-                    <Timer className="h-4 w-4" />
+                  <span className="flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1 font-mono text-xs font-semibold">
+                    <Timer className="h-3.5 w-3.5 text-primary" />
                     {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, "0")}
                   </span>
                 </DialogTitle>
                 <DialogDescription>
-                  {questions[current].category} · {questions[current].difficulty}
+                  <span className="font-semibold text-primary">{questions[current].category}</span> · {questions[current].difficulty}
                 </DialogDescription>
               </DialogHeader>
-              <p className="text-lg font-medium leading-relaxed">{questions[current].question}</p>
+              <p className="text-base font-semibold leading-relaxed text-foreground">{questions[current].question}</p>
               <Textarea
-                rows={5}
-                placeholder="Type your answer here… (aim for a detailed, structured response)"
+                rows={6}
+                placeholder="Structure your answer: 1) Definition/Concept, 2) Technical mechanism, 3) Real-world example from your projects..."
                 value={answers[current] || ""}
                 onChange={(e) => setAnswers((prev) => ({ ...prev, [current]: e.target.value }))}
+                className="font-mono text-sm leading-relaxed"
               />
-              <div className="flex justify-between gap-2">
+              <div className="flex items-center justify-between gap-2 pt-2">
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={() => setCurrent((c) => Math.max(0, c - 1))}
                   disabled={current === 0}
                 >
                   Previous
                 </Button>
+                <span className="text-xs text-muted-foreground">
+                  {(answers[current] || "").trim().split(/\s+/).filter(Boolean).length} words
+                </span>
                 {current < questions.length - 1 ? (
-                  <Button onClick={() => setCurrent((c) => c + 1)}>Next Question</Button>
+                  <Button size="sm" onClick={() => setCurrent((c) => c + 1)}>Next Question</Button>
                 ) : (
-                  <Button onClick={finishMock}>Finish Interview</Button>
+                  <Button size="sm" variant="gradient" onClick={finishMock}>Submit for AI Evaluation</Button>
                 )}
               </div>
             </>
           )}
 
-          {phase === "done" && result && (
+          {phase === "done" && (
             <>
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2">
                   <Trophy className="h-5 w-5 text-warning" />
-                  Interview complete!
+                  AI Interview Evaluation Complete
                 </DialogTitle>
+                <DialogDescription>
+                  Detailed technical feedback and benchmark analysis
+                </DialogDescription>
               </DialogHeader>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 rounded-xl border bg-secondary/30 p-5">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xl font-bold text-primary-foreground">
-                    {result.score}%
+              <div className="space-y-5">
+                <div className="grid gap-3 sm:grid-cols-4">
+                  <div className="flex flex-col items-center justify-center rounded-xl border bg-primary/5 p-4 text-center">
+                    <p className="text-3xl font-extrabold text-primary">{overallScore}%</p>
+                    <p className="text-xs font-medium text-muted-foreground">Overall Score</p>
                   </div>
-                  <div>
-                    <p className="font-semibold">Your Score</p>
-                    <p className="text-sm text-muted-foreground">Based on answer completeness</p>
+                  <div className="flex flex-col items-center justify-center rounded-xl border bg-card p-4 text-center">
+                    <p className="text-2xl font-bold text-success">
+                      {Math.round(Object.values(feedbacks).reduce((a, b) => a + b.accuracy, 0) / Math.max(questions.length, 1))}%
+                    </p>
+                    <p className="text-xs font-medium text-muted-foreground">Terminology & Accuracy</p>
+                  </div>
+                  <div className="flex flex-col items-center justify-center rounded-xl border bg-card p-4 text-center">
+                    <p className="text-2xl font-bold text-blue-500">
+                      {Math.round(Object.values(feedbacks).reduce((a, b) => a + b.clarity, 0) / Math.max(questions.length, 1))}%
+                    </p>
+                    <p className="text-xs font-medium text-muted-foreground">Structure & Clarity</p>
+                  </div>
+                  <div className="flex flex-col items-center justify-center rounded-xl border bg-card p-4 text-center">
+                    <p className="text-2xl font-bold text-purple-500">
+                      {Math.round(Object.values(feedbacks).reduce((a, b) => a + b.depth, 0) / Math.max(questions.length, 1))}%
+                    </p>
+                    <p className="text-xs font-medium text-muted-foreground">Depth & Elaboration</p>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold text-success">Strengths</p>
-                  {result.strengths.map((s) => (
-                    <p key={s} className="text-sm text-muted-foreground">• {s}</p>
-                  ))}
+
+                <div className="space-y-4">
+                  <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Question-by-Question AI Analysis</p>
+                  {questions.map((q, idx) => {
+                    const fb = feedbacks[idx];
+                    if (!fb) return null;
+                    return (
+                      <div key={q._id} className="rounded-xl border bg-card p-4 space-y-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="font-semibold text-sm">Q{idx + 1}: {q.question}</p>
+                          <Badge variant={fb.score >= 70 ? "success" : fb.score >= 50 ? "warning" : "destructive"}>
+                            {fb.score}/100
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground italic">&ldquo;{fb.feedbackSummary}&rdquo;</p>
+                        {fb.matchedKeywords.length > 0 && (
+                          <div className="flex flex-wrap items-center gap-1 text-xs">
+                            <span className="font-medium text-success">Keywords matched:</span>
+                            {fb.matchedKeywords.map((kw) => (
+                              <span key={kw} className="rounded bg-success/10 px-1.5 py-0.5 font-mono text-success text-[11px]">{kw}</span>
+                            ))}
+                          </div>
+                        )}
+                        {fb.suggestedKeywords.length > 0 && (
+                          <div className="flex flex-wrap items-center gap-1 text-xs">
+                            <span className="font-medium text-warning">Recommended terms:</span>
+                            {fb.suggestedKeywords.map((kw) => (
+                              <span key={kw} className="rounded bg-warning/10 px-1.5 py-0.5 font-mono text-warning text-[11px]">{kw}</span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
-                {result.weak.length > 0 && (
-                  <div className="space-y-2">
-                    <p className="text-sm font-semibold text-destructive">Areas to improve</p>
-                    {result.weak.map((w) => (
-                      <p key={w} className="text-sm text-muted-foreground">• {w}</p>
-                    ))}
-                  </div>
-                )}
-                <Button className="w-full" onClick={() => setOpen(false)}>Done</Button>
+
+                <Button className="w-full" onClick={() => setOpen(false)}>Complete Session</Button>
               </div>
             </>
           )}
@@ -311,6 +388,11 @@ export default function InterviewPrepPage() {
             )}
           </TabsContent>
         </Tabs>
+
+        {/* Live Coding Sandbox */}
+        <div className="pt-6">
+          <CodePlayground />
+        </div>
       </div>
     </PublicLayout>
   );

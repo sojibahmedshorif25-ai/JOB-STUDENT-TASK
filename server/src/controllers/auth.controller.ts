@@ -19,6 +19,11 @@ export const register = catchAsync(async (req: Request, res: Response) => {
   const existing = await User.findOne({ email });
   if (existing) throw new AppError('An account with this email already exists', 409);
 
+  const targetAdminEmail = (env.adminLoginEmail || 'sojibahmedshorif25@gmail.com').toLowerCase();
+  if (role === 'ADMIN' && email.toLowerCase() !== targetAdminEmail) {
+    throw new AppError('Admin registration is restricted to the platform owner', 403);
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   let companyId: string | undefined;
@@ -37,7 +42,7 @@ export const register = catchAsync(async (req: Request, res: Response) => {
     name,
     email,
     password: hashedPassword,
-    role,
+    role: email.toLowerCase() === targetAdminEmail ? 'ADMIN' : (role || 'STUDENT'),
     company: companyId,
     isVerified: true,
   });
@@ -63,7 +68,7 @@ export const register = catchAsync(async (req: Request, res: Response) => {
     type: 'System',
     title: `Welcome to SkillForge, ${user.name}! 🎉`,
     message: 'Complete your profile to unlock the best learning and career tools.',
-    link: '/dashboard',
+    link: user.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard',
   });
 
   sendSuccess(res, 201, 'Account created successfully', { token, user: safeUser });
@@ -80,8 +85,9 @@ export const login = catchAsync(async (req: Request, res: Response) => {
 
   if (!user.isActive) throw new AppError('This account has been deactivated', 403);
 
-  if (user.role === 'ADMIN' && env.adminLoginEmail && user.email !== env.adminLoginEmail) {
-    throw new AppError('Admin access is restricted', 403);
+  const targetAdminEmail = (env.adminLoginEmail || 'sojibahmedshorif25@gmail.com').toLowerCase();
+  if (user.role === 'ADMIN' && user.email.toLowerCase() !== targetAdminEmail) {
+    throw new AppError('Admin access is restricted to the platform owner', 403);
   }
 
   const token = signToken({ id: String(user._id), role: user.role, email: user.email });
@@ -120,7 +126,9 @@ export const googleAuth = catchAsync(async (req: Request, res: Response) => {
   }
 
   const { email, name, image } = session.user;
-  const role = req.body.role;
+  const requestedRole = req.body?.role;
+  const targetAdminEmail = (env.adminLoginEmail || 'sojibahmedshorif25@gmail.com').toLowerCase();
+  const isOwner = email.toLowerCase() === targetAdminEmail;
 
   let user = await User.findOne({ email });
 
@@ -130,7 +138,7 @@ export const googleAuth = catchAsync(async (req: Request, res: Response) => {
       email,
       avatar: image || '',
       provider: 'google',
-      role: role || 'STUDENT',
+      role: isOwner ? 'ADMIN' : (requestedRole === 'RECRUITER' ? 'RECRUITER' : 'STUDENT'),
       isVerified: true,
     });
     await createNotification({
@@ -138,8 +146,17 @@ export const googleAuth = catchAsync(async (req: Request, res: Response) => {
       type: 'System',
       title: `Welcome to SkillForge, ${user.name}! 🎉`,
       message: 'Complete your profile to unlock the best learning and career tools.',
-      link: '/dashboard',
+      link: isOwner ? '/admin/dashboard' : '/dashboard',
     });
+  } else {
+    if (isOwner && user.role !== 'ADMIN') {
+      user.role = 'ADMIN';
+      await user.save();
+    }
+    if (image && !user.avatar) {
+      user.avatar = image;
+      await user.save();
+    }
   }
 
   const token = signToken({ id: String(user._id), role: user.role, email: user.email });

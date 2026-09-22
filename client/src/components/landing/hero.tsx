@@ -62,6 +62,12 @@ export function Hero() {
                   Find Jobs
                 </Link>
               </Button>
+              <Button size="lg" variant="ghost" className="border border-primary/20 bg-primary/5 text-primary hover:bg-primary/10" asChild>
+                <Link href="/interview-prep">
+                  <Sparkles className="h-4 w-4 mr-1.5 text-primary" />
+                  AI Interview Prep
+                </Link>
+              </Button>
             </div>
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2">

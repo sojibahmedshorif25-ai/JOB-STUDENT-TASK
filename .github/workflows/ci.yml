@@ -1,0 +1,61 @@
+name: SkillForge CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  server-ci:
+    name: Server Build, Typecheck & Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Server Typecheck
+        working-directory: server
+        run: npm run typecheck
+
+      - name: Server Build
+        working-directory: server
+        run: npm run build
+
+  client-ci:
+    name: Client Build & Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Client Build
+        working-directory: client
+        env:
+          NEXT_PUBLIC_API_URL: https://job-student-task.onrender.com/api
+          NEXT_PUBLIC_AUTH_URL: https://job-student-task.onrender.com/api/auth
+        run: npm run build

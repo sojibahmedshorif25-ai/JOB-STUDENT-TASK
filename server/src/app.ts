@@ -71,18 +71,20 @@ app.get('/api/health', (_req: Request, res: Response) => {
   });
 });
 
+import { publicCache } from './middlewares/cache';
+
 app.use('/api/auth', authRoutes);
 app.use('/api/auth', oauthLimiter, toNodeHandler(auth));
 app.use('/api/users', userRoutes);
-app.use('/api/courses', courseRoutes);
+app.use('/api/courses', publicCache(60), courseRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
-app.use('/api/jobs', jobRoutes);
+app.use('/api/jobs', publicCache(60), jobRoutes);
 app.use('/api/applications', applicationRoutes);
-app.use('/api/projects', projectRoutes);
+app.use('/api/projects', publicCache(60), projectRoutes);
 app.use('/api/resume', resumeRoutes);
-app.use('/api/interview', interviewRoutes);
+app.use('/api/interview', publicCache(60), interviewRoutes);
 app.use('/api/notifications', notificationRoutes);
-app.use('/api/companies', companyRoutes);
+app.use('/api/companies', publicCache(60), companyRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 

@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { AuthProvider } from "@/contexts/auth-context";
 import { ToastProvider } from "@/components/ui/toast";
+import { DemoBar } from "@/components/shared/demo-bar";
+import { AiAssistantWidget } from "@/components/shared/ai-assistant-widget";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,12 +36,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
-      <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={inter.variable}>
+      <body suppressHydrationWarning className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <QueryProvider>
             <AuthProvider>
-              <ToastProvider>{children}</ToastProvider>
+              <ToastProvider>
+                {children}
+                <DemoBar />
+                <AiAssistantWidget />
+              </ToastProvider>
             </AuthProvider>
           </QueryProvider>
         </ThemeProvider>
