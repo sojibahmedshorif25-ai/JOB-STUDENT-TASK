@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { AuthProvider } from "@/contexts/auth-context";
 import { ToastProvider } from "@/components/ui/toast";
-import { DemoBar } from "@/components/shared/demo-bar";
 import { AiAssistantWidget } from "@/components/shared/ai-assistant-widget";
 
 const inter = Inter({
@@ -43,7 +42,6 @@ export default function RootLayout({
             <AuthProvider>
               <ToastProvider>
                 {children}
-                <DemoBar />
                 <AiAssistantWidget />
               </ToastProvider>
             </AuthProvider>

@@ -196,6 +196,14 @@ export function Navbar() {
                       Dashboard
                     </Link>
                   </DropdownMenuItem>
+                  {user.role === "STUDENT" && (
+                    <DropdownMenuItem asChild>
+                      <Link href={`/u/${user._id}`}>
+                        <UserCircle2 className="h-4 w-4" />
+                        Public Portfolio
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard/settings">
                       <UserCircle2 className="h-4 w-4" />
