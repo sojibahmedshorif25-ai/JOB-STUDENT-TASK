@@ -8,7 +8,7 @@ This guide gives you ready-made **CV bullet points**, **System Design talking po
 
 Choose the role you are applying for and copy these bullets directly into your CV:
 
-### For Full-Stack Developer (MERN / Next.js):
+### For Fullstack Developer (React / Next.js):
 > **SkillForge — Full-Stack Learning & Career Recruitment Platform** | *Next.js 16, TypeScript, Node.js, Express, MongoDB, Tailwind CSS v4, Docker*  
 > • **Architected and deployed** an enterprise-grade full-stack platform featuring 3 RBAC user tiers (Student, Recruiter, Admin), 40+ RESTful API endpoints, and dual-layer JWT & Google OAuth 2.0 authentication.  
 > • **Built interactive AI-powered mock interview and ATS resume scanner** providing instant algorithmic feedback on technical accuracy, keyword density, and STAR-method communication.  
