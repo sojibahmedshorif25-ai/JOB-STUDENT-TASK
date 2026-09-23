@@ -55,7 +55,7 @@ const TARGET_ROLE_KEYWORDS: Record<string, string[]> = {
     "Unit Testing",
     "Microservices",
   ],
-  "Fullstack Developer": [
+  "MERN Stack Developer": [
     "MongoDB",
     "Express.js",
     "React.js",
